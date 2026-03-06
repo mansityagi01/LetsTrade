@@ -585,6 +585,54 @@ pre {
     to { transform: rotate(360deg); }
 }
 
+/* ==========================================================================
+   Price Flash Animations
+   ========================================================================== */
+
+/* Green flash for price increase */
+.price-flash-green {
+    animation: flash-green 0.5s ease-out;
+}
+
+@keyframes flash-green {
+    0% {
+        color: var(--color-text-primary);
+        background-color: transparent;
+    }
+    50% {
+        color: var(--color-success);
+        background-color: rgba(16, 185, 129, 0.15);
+        transform: scale(1.05);
+    }
+    100% {
+        color: var(--color-text-primary);
+        background-color: transparent;
+        transform: scale(1);
+    }
+}
+
+/* Red flash for price decrease */
+.price-flash-red {
+    animation: flash-red 0.5s ease-out;
+}
+
+@keyframes flash-red {
+    0% {
+        color: var(--color-text-primary);
+        background-color: transparent;
+    }
+    50% {
+        color: var(--color-danger);
+        background-color: rgba(239, 68, 68, 0.15);
+        transform: scale(1.05);
+    }
+    100% {
+        color: var(--color-text-primary);
+        background-color: transparent;
+        transform: scale(1);
+    }
+}
+
 
 /* ==========================================================================
    Selection

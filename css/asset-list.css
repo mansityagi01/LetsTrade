@@ -1,0 +1,407 @@
+/* ==========================================================================
+   Asset List - Watchlist Component
+   ========================================================================== */
+
+.asset-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: var(--space-xs);
+}
+
+.asset-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.asset-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.asset-list::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: var(--radius-sm);
+}
+
+.asset-list::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
+}
+
+
+/* ==========================================================================
+   Asset List Item
+   ========================================================================== */
+
+.asset-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-md);
+    background-color: var(--color-surface-secondary);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    user-select: none;
+}
+
+.asset-item:hover {
+    background-color: var(--color-surface-hover);
+    border-color: var(--color-border-focus);
+    transform: translateX(2px);
+}
+
+.asset-item:active {
+    transform: translateX(0);
+}
+
+.asset-item.selected {
+    background-color: var(--color-primary-bg);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px var(--color-primary-bg);
+}
+
+.asset-item--active {
+    background-color: var(--color-primary-bg);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px var(--color-primary-bg);
+}
+
+.asset-item--loading {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+
+/* ==========================================================================
+   Asset Info Section (Left Side)
+   ========================================================================== */
+
+.asset-item__info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    flex: 1;
+    min-width: 0;
+}
+
+.asset-item__ticker {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    font-family: var(--font-mono);
+    letter-spacing: 0.5px;
+}
+
+.asset-item__symbol {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    font-family: var(--font-mono);
+    letter-spacing: 0.5px;
+}
+
+.asset-item__name {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.asset-item__sector {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+    background-color: var(--color-bg-tertiary);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    display: inline-block;
+    width: fit-content;
+}
+
+
+/* ==========================================================================
+   Asset Price Section (Right Side)
+   ========================================================================== */
+
+.asset-item__price-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-xs);
+}
+
+.asset-item__price-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-xs);
+}
+
+.asset-item__price {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    font-family: var(--font-mono);
+}
+
+.asset-item__change {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    font-family: var(--font-mono);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+}
+
+.asset-item__change--positive {
+    color: var(--color-profit-green);
+    background-color: var(--color-profit-bg);
+}
+
+.asset-item__change--negative {
+    color: var(--color-loss-red);
+    background-color: var(--color-loss-bg);
+}
+
+.asset-item__change--neutral {
+    color: var(--color-text-muted);
+    background-color: var(--color-bg-tertiary);
+}
+
+.asset-item__change-arrow {
+    font-size: 8px;
+}
+
+
+/* ==========================================================================
+   Asset List States
+   ========================================================================== */
+
+.asset-list__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-3xl) var(--space-lg);
+    text-align: center;
+}
+
+.asset-list__empty-icon {
+    font-size: var(--font-size-5xl);
+    opacity: 0.3;
+    margin-bottom: var(--space-md);
+}
+
+.asset-list__empty-text {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+}
+
+.asset-list__loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-3xl) var(--space-lg);
+    gap: var(--space-md);
+}
+
+.asset-list__loading-text {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+}
+
+
+/* ==========================================================================
+   Asset Category Badge
+   ========================================================================== */
+
+.asset-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-xs) var(--space-sm);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    border-radius: var(--radius-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.asset-badge--indian-stock {
+    background-color: rgba(245, 158, 11, 0.1);
+    color: var(--color-warning);
+}
+
+.asset-badge--us-stock {
+    background-color: rgba(59, 130, 246, 0.1);
+    color: var(--color-primary);
+}
+
+.asset-badge--crypto {
+    background-color: rgba(139, 92, 246, 0.1);
+    color: var(--color-secondary);
+}
+
+
+/* ==========================================================================
+   Asset Actions
+   ========================================================================== */
+
+.asset-item__actions {
+    display: none;
+    align-items: center;
+    gap: var(--space-xs);
+    margin-left: var(--space-sm);
+}
+
+.asset-item:hover .asset-item__actions {
+    display: flex;
+}
+
+.asset-item__action-btn {
+    padding: var(--space-xs) var(--space-sm);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    background-color: var(--color-primary);
+    color: var(--color-text-primary);
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.asset-item__action-btn:hover {
+    background-color: var(--color-primary-light);
+    transform: scale(1.05);
+}
+
+.asset-item__action-btn--buy {
+    background-color: var(--color-profit-green);
+}
+
+.asset-item__action-btn--buy:hover {
+    background-color: var(--color-profit-green-light);
+}
+
+.asset-item__action-btn--sell {
+    background-color: var(--color-loss-red);
+}
+
+.asset-item__action-btn--sell:hover {
+    background-color: var(--color-loss-red-light);
+}
+
+
+/* ==========================================================================
+   Asset List Filters
+   ========================================================================== */
+
+.asset-filter {
+    display: flex;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-md);
+    flex-wrap: wrap;
+}
+
+.asset-filter__tag {
+    padding: var(--space-xs) var(--space-md);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-tertiary);
+    background-color: var(--color-surface-secondary);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.asset-filter__tag:hover {
+    background-color: var(--color-surface-hover);
+    color: var(--color-text-secondary);
+}
+
+.asset-filter__tag--active {
+    background-color: var(--color-primary);
+    color: var(--color-text-primary);
+    border-color: var(--color-primary);
+}
+
+
+/* ==========================================================================
+   Asset Grid View (Alternative Layout)
+   ========================================================================== */
+
+.asset-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: var(--space-md);
+    padding: var(--space-md) 0;
+}
+
+.asset-grid-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    background-color: var(--color-surface-secondary);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-align: center;
+}
+
+.asset-grid-item:hover {
+    background-color: var(--color-surface-hover);
+    border-color: var(--color-border-focus);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.asset-grid-item__ticker {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    font-family: var(--font-mono);
+}
+
+.asset-grid-item__price {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-secondary);
+    font-family: var(--font-mono);
+}
+
+.asset-grid-item__change {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    font-family: var(--font-mono);
+}
+
+
+/* ==========================================================================
+   Responsive Asset List
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .asset-list {
+        max-height: 300px;
+    }
+    
+    .asset-item {
+        padding: var(--space-sm);
+    }
+    
+    .asset-item__name {
+        display: none;
+    }
+    
+    .asset-item__sector {
+        display: none;
+    }
+}

@@ -1,0 +1,185 @@
+/* ==========================================================================
+   Transaction History Table Styling
+   ========================================================================== */
+
+.transaction-history {
+    background-color: var(--color-surface-primary);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    margin-top: var(--space-xl);
+}
+
+.transaction-history__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--color-border-primary);
+}
+
+.transaction-history__title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+}
+
+/* ==========================================================================
+   Transaction Table
+   ========================================================================== */
+
+.transaction-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-size-sm);
+}
+
+.transaction-table__head {
+    background-color: var(--color-surface-secondary);
+    border-bottom: 2px solid var(--color-border-secondary);
+}
+
+.transaction-table__header {
+    padding: var(--space-md);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-secondary);
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.transaction-table__body tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: background-color var(--transition-fast);
+}
+
+.transaction-table__body tr:hover {
+    background-color: var(--color-surface-hover);
+}
+
+.transaction-table__body tr:last-child {
+    border-bottom: none;
+}
+
+.transaction-table__row {
+    transition: background-color var(--transition-fast);
+}
+
+.transaction-table__cell {
+    padding: var(--space-md);
+    color: var(--color-text-secondary);
+    font-family: var(--font-mono);
+}
+
+.transaction-table__cell--timestamp {
+    color: var(--color-text-muted);
+    font-size: var(--font-size-xs);
+    font-family: var(--font-mono);
+}
+
+.transaction-table__cell--quantity,
+.transaction-table__cell--price,
+.transaction-table__cell--total,
+.transaction-table__cell--pnl {
+    text-align: right;
+}
+
+.transaction-table__asset-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.transaction-table__symbol {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    font-family: var(--font-mono);
+}
+
+.transaction-table__name {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    font-family: var(--font-primary);
+}
+
+/* ==========================================================================
+   Transaction Type Badges
+   ========================================================================== */
+
+.transaction-badge {
+    display: inline-block;
+    padding: var(--space-xs) var(--space-sm);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: var(--radius-sm);
+}
+
+.transaction-badge--buy {
+    background-color: rgba(16, 185, 129, 0.15);
+    color: var(--color-success);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.transaction-badge--sell {
+    background-color: rgba(239, 68, 68, 0.15);
+    color: var(--color-danger);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* ==========================================================================
+   Empty State
+   ========================================================================== */
+
+.transaction-table__empty {
+    border: none;
+}
+
+.transaction-table__empty-cell {
+    padding: var(--space-3xl) var(--space-lg);
+    text-align: center;
+}
+
+.transaction-table__empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.transaction-table__empty-icon {
+    font-size: 48px;
+    opacity: 0.3;
+}
+
+.transaction-table__empty-text {
+    font-size: var(--font-size-base);
+    color: var(--color-text-muted);
+    font-family: var(--font-primary);
+    max-width: 400px;
+    line-height: var(--line-height-relaxed);
+}
+
+/* ==========================================================================
+   Responsive Adjustments
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .transaction-table {
+        font-size: var(--font-size-xs);
+    }
+    
+    .transaction-table__header,
+    .transaction-table__cell {
+        padding: var(--space-sm);
+    }
+    
+    .transaction-table__cell--timestamp {
+        display: none;
+    }
+}

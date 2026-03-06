@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="css/trading-panel.css">
     <link rel="stylesheet" href="css/charts.css">
     <link rel="stylesheet" href="css/asset-list.css">
+    <link rel="stylesheet" href="css/notification.css">
+    <link rel="stylesheet" href="css/transaction-history.css">
     <link rel="stylesheet" href="css/modal.css">
     
     <!-- Favicon -->
@@ -223,6 +225,44 @@
                     <div class="allocation__legend" id="allocation-legend">
                         <!-- Legend will be populated by JavaScript -->
                     </div>
+                </div>
+            </section>
+
+            <!-- Transaction History Section -->
+            <section class="transaction-history">
+                <div class="transaction-history__header">
+                    <h2 class="transaction-history__title">Transaction History</h2>
+                </div>
+                
+                <!-- Transaction Table -->
+                <div class="transaction-table-wrapper">
+                    <table class="transaction-table">
+                        <thead class="transaction-table__head">
+                            <tr>
+                                <th class="transaction-table__header">Timestamp</th>
+                                <th class="transaction-table__header">Type</th>
+                                <th class="transaction-table__header">Asset</th>
+                                <th class="transaction-table__header">Quantity</th>
+                                <th class="transaction-table__header">Price</th>
+                                <th class="transaction-table__header">Total (USD)</th>
+                                <th class="transaction-table__header">Realized P&L</th>
+                            </tr>
+                        </thead>
+                        <tbody class="transaction-table__body" id="transaction-history-body">
+                            <!-- Empty State -->
+                            <tr class="transaction-table__empty">
+                                <td colspan="7" class="transaction-table__empty-cell">
+                                    <div class="transaction-table__empty-state">
+                                        <div class="transaction-table__empty-icon">📋</div>
+                                        <div class="transaction-table__empty-text">
+                                            No transactions yet. Your trading history will appear here.
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- Dynamic rows will be populated by JavaScript -->
+                        </tbody>
+                    </table>
                 </div>
             </section>
 
