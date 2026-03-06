@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/form-message.css">
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="assets/images/logo.svg">
@@ -173,6 +174,9 @@
             <!-- Login Form -->
             <div class="auth__form-container auth__form-container--active" id="login-form-container">
                 <form class="auth-form" id="login-form" novalidate>
+                    <!-- Message Container -->
+                    <div class="form-message" id="login-message" style="display: none;"></div>
+                    
                     <div class="auth-form__group">
                         <label for="login-email" class="auth-form__label">Email Address</label>
                         <input 
@@ -229,6 +233,9 @@
             <!-- Register Form -->
             <div class="auth__form-container" id="register-form-container">
                 <form class="auth-form" id="register-form" novalidate>
+                    <!-- Message Container -->
+                    <div class="form-message" id="register-message" style="display: none;"></div>
+                    
                     <div class="auth-form__group">
                         <label for="register-username" class="auth-form__label">Username</label>
                         <input 
@@ -391,9 +398,7 @@
 
     <!-- JavaScript Modules -->
     <script type="module" src="js/main.js"></script>
-    <script type="module" src="js/auth/login.js"></script>
-    <script type="module" src="js/auth/register.js"></script>
-    <script type="module" src="js/auth/session.js"></script>
+    <script type="module" src="js/auth/init-auth.js"></script>
 
 </body>
 </html>

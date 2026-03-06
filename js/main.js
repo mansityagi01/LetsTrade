@@ -11,6 +11,8 @@ import {
     MARKETS
 } from './config.js';
 
+import { isLoggedIn, getCurrentUser, requireAuth } from './auth/session.js';
+import { getItem, setItem } from './utils/storage.js';
 import { initializeDashboard as initDashboardController } from './ui/dashboard-controller.js';
 
 // Global Application State
@@ -29,38 +31,50 @@ function initApp() {
     console.log(`%c${APP_NAME} v${APP_VERSION}`, 'color: #3b82f6; font-size: 18px; font-weight: bold;');
     console.log('%cPaper Trading Simulator Initializing...', 'color: #10b981; font-size: 14px;');
     
-    // Check if user is logged in
-    userSession = checkUserSession();
+    // Get current page
+    const pathname = window.location.pathname;
+    const isDashboard = pathname.endsWith('dashboard.html');
+    const isIndex = pathname.endsWith('index.html') || pathname === '/' || pathname.endsWith('/');
     
-    if (userSession) {
-        // User is logged in - load their portfolio
-        portfolioState = loadPortfolio(userSession.userId);
+    // Check authentication status using new session module
+    const loggedIn = isLoggedIn();
+    
+    // Route protection: Dashboard requires authentication
+    if (isDashboard && !loggedIn) {
+        console.warn('⚠ Unauthorized access to dashboard. Redirecting to login...');
+        window.location.href = 'index.html';
+        return;
+    }
+    
+    // Redirect to dashboard if already logged in and on index
+    if (isIndex && loggedIn) {
+        console.log('✓ User already logged in. Redirecting to dashboard...');
+        window.location.href = 'dashboard.html';
+        return;
+    }
+    
+    // If logged in, load user session and portfolio
+    if (loggedIn) {
+        userSession = getCurrentUser();
         
-        // Verify portfolio state and initialize if corrupted
-        if (!portfolioState || !validatePortfolioStructure(portfolioState)) {
-            console.warn('Portfolio state invalid. Reinitializing...');
-            portfolioState = initializePortfolio(userSession.userId, userSession.username);
-            savePortfolio(portfolioState);
+        if (userSession) {
+            console.log('✓ User session found:', userSession.email);
+            
+            // Load portfolio for this user
+            portfolioState = loadPortfolio(userSession.email);
+            
+            // Verify portfolio state and initialize if corrupted
+            if (!portfolioState || !validatePortfolioStructure(portfolioState)) {
+                console.warn('Portfolio state invalid. Reinitializing...');
+                portfolioState = initializePortfolio(userSession.email, userSession.name);
+                savePortfolio(portfolioState);
+            }
+            
+            console.log('✓ Portfolio loaded successfully');
+            console.log('LetsTrade Engine Initialized:', portfolioState);
         }
-        
-        console.log('✓ User session found:', userSession.username);
-        console.log('✓ Portfolio loaded successfully');
-        console.log('LetsTrade Engine Initialized:', portfolioState);
-        
-        // If on index.html, redirect to dashboard
-        if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/') {
-            window.location.href = 'dashboard.html';
-        }
-        
     } else {
-        // No user session - show authentication page
         console.log('⚠ No active session. User needs to log in.');
-        
-        // If on dashboard.html, redirect to index
-        if (window.location.pathname.endsWith('dashboard.html')) {
-            window.location.href = 'index.html';
-        }
-        
         console.log('LetsTrade Engine Initialized: Ready for authentication');
     }
     
@@ -69,62 +83,37 @@ function initApp() {
 }
 
 /* ==========================================================================
-   User Session Management
+   User Session Management (Legacy - Now handled by auth/session.js)
    ========================================================================== */
 
 /**
  * Check if a user session exists in localStorage
  * @returns {Object|null} User session object or null
+ * @deprecated Use isLoggedIn() and getCurrentUser() from auth/session.js
  */
 function checkUserSession() {
-    try {
-        const sessionData = localStorage.getItem(STORAGE_KEYS.USER_SESSION);
-        if (sessionData) {
-            const session = JSON.parse(sessionData);
-            // Validate session structure
-            if (session.userId && session.username) {
-                return session;
-            }
-        }
-        return null;
-    } catch (error) {
-        console.error('Error checking user session:', error);
-        return null;
-    }
+    return isLoggedIn() ? getCurrentUser() : null;
 }
 
 /**
  * Create a new user session
  * @param {string} userId - Unique user identifier
- * @param {string} username - Username
+ * @param {string} username - Username  
  * @param {string} email - User email
  * @returns {Object} Session object
+ * @deprecated Use createSession() from auth/session.js
  */
 function createUserSession(userId, username, email) {
-    const session = {
-        userId,
-        username,
-        email,
-        loginTime: new Date().toISOString()
-    };
-    
-    localStorage.setItem(STORAGE_KEYS.USER_SESSION, JSON.stringify(session));
-    userSession = session;
-    
-    return session;
+    console.warn('createUserSession is deprecated. Use auth/session.js');
+    return null;
 }
 
 /**
  * Clear user session (logout)
+ * @deprecated Use destroySession() from auth/session.js
  */
 function clearUserSession() {
-    localStorage.removeItem(STORAGE_KEYS.USER_SESSION);
-    localStorage.removeItem(STORAGE_KEYS.PORTFOLIO);
-    localStorage.removeItem(STORAGE_KEYS.TRANSACTION_HISTORY);
-    userSession = null;
-    portfolioState = null;
-    
-    console.log('✓ User session cleared');
+    console.warn('clearUserSession is deprecated. Use auth/session.js');
 }
 
 /* ==========================================================================
@@ -133,16 +122,17 @@ function clearUserSession() {
 
 /**
  * Initialize a fresh portfolio for a new user
- * @param {string} userId - User ID
+ * @param {string} userEmail - User email (used as identifier)
  * @param {string} username - Username
  * @returns {Object} Portfolio state object
  */
-function initializePortfolio(userId, username) {
+function initializePortfolio(userEmail, username) {
     const portfolio = {
-        [PORTFOLIO_STATE_KEYS.USER_ID]: userId,
+        [PORTFOLIO_STATE_KEYS.USER_ID]: userEmail,
         [PORTFOLIO_STATE_KEYS.USERNAME]: username,
         [PORTFOLIO_STATE_KEYS.BALANCE]: INITIAL_BALANCE,
         [PORTFOLIO_STATE_KEYS.HOLDINGS]: [],
+        transactionHistory: [],
         [PORTFOLIO_STATE_KEYS.TOTAL_VALUE]: INITIAL_BALANCE,
         [PORTFOLIO_STATE_KEYS.TOTAL_PNL]: 0,
         [PORTFOLIO_STATE_KEYS.TOTAL_PNL_PERCENTAGE]: 0,
@@ -157,23 +147,21 @@ function initializePortfolio(userId, username) {
 
 /**
  * Load portfolio from localStorage
- * @param {string} userId - User ID
+ * @param {string} userEmail - User email (used as identifier)
  * @returns {Object|null} Portfolio state or null
  */
-function loadPortfolio(userId) {
+function loadPortfolio(userEmail) {
     try {
-        const portfolioData = localStorage.getItem(STORAGE_KEYS.PORTFOLIO);
-        if (portfolioData) {
-            const portfolio = JSON.parse(portfolioData);
-            
-            // Verify portfolio belongs to current user
-            if (portfolio[PORTFOLIO_STATE_KEYS.USER_ID] === userId) {
-                return portfolio;
-            } else {
-                console.warn('Portfolio user ID mismatch. Creating new portfolio.');
-                return null;
-            }
+        // Portfolio is stored with user email as key suffix
+        const portfolioKey = `${STORAGE_KEYS.PORTFOLIO}_${userEmail}`;
+        const portfolio = getItem(portfolioKey);
+        
+        if (portfolio) {
+            console.log(`✓ Portfolio loaded for ${userEmail}`);
+            return portfolio;
         }
+        
+        console.log('No existing portfolio found. Will initialize new portfolio.');
         return null;
     } catch (error) {
         console.error('Error loading portfolio:', error);
@@ -187,8 +175,18 @@ function loadPortfolio(userId) {
  */
 function savePortfolio(portfolio) {
     try {
+        const userEmail = portfolio[PORTFOLIO_STATE_KEYS.USER_ID];
+        if (!userEmail) {
+            console.error('Cannot save portfolio: No user email found');
+            return;
+        }
+        
         portfolio[PORTFOLIO_STATE_KEYS.LAST_UPDATED] = new Date().toISOString();
-        localStorage.setItem(STORAGE_KEYS.PORTFOLIO, JSON.stringify(portfolio));
+        
+        // Save with user email as key suffix
+        const portfolioKey = `${STORAGE_KEYS.PORTFOLIO}_${userEmail}`;
+        setItem(portfolioKey, portfolio);
+        
         console.log('✓ Portfolio saved to localStorage');
     } catch (error) {
         console.error('Error saving portfolio:', error);
