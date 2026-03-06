@@ -1,0 +1,615 @@
+/* ==========================================================================
+   Dashboard Layout - App Shell Structure
+   ========================================================================== */
+
+/* Dashboard Page Container */
+.dashboard-page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+
+/* ==========================================================================
+   Dashboard Header - Fixed Top Bar
+   ========================================================================== */
+
+.dashboard-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--header-height);
+    background-color: var(--color-surface-primary);
+    border-bottom: 1px solid var(--color-border-primary);
+    z-index: var(--z-fixed);
+    box-shadow: var(--shadow-sm);
+}
+
+.dashboard-header__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    padding: 0 var(--space-lg);
+    gap: var(--space-xl);
+}
+
+/* Header Logo */
+.dashboard-header__logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    flex-shrink: 0;
+}
+
+.dashboard-header__logo-img {
+    width: 32px;
+    height: 32px;
+}
+
+.dashboard-header__logo-text {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Header Metrics (Balance & P&L) */
+.dashboard-header__metrics {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xl);
+    flex: 1;
+    justify-content: center;
+}
+
+.balance-display,
+.pnl-display,
+.portfolio-display {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.balance-display__label,
+.pnl-display__label,
+.portfolio-display__label {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.balance-display__value,
+.portfolio-display__value {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    font-family: var(--font-mono);
+}
+
+.pnl-display__value {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    font-family: var(--font-mono);
+}
+
+.pnl-display__value--positive {
+    color: var(--color-profit-green);
+}
+
+.pnl-display__value--negative {
+    color: var(--color-loss-red);
+}
+
+/* Header Actions */
+.dashboard-header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    flex-shrink: 0;
+}
+
+.dashboard-header__notification {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface-secondary);
+    transition: background-color var(--transition-fast);
+}
+
+.dashboard-header__notification:hover {
+    background-color: var(--color-surface-hover);
+}
+
+.dashboard-header__notification-icon {
+    font-size: var(--font-size-lg);
+}
+
+.dashboard-header__notification-badge {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    background-color: var(--color-loss-red);
+    color: var(--color-text-primary);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    border-radius: var(--radius-full);
+}
+
+/* User Menu */
+.user-menu {
+    position: relative;
+}
+
+.user-menu__trigger {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface-secondary);
+    transition: background-color var(--transition-fast);
+}
+
+.user-menu__trigger:hover {
+    background-color: var(--color-surface-hover);
+}
+
+.user-menu__avatar {
+    font-size: var(--font-size-lg);
+}
+
+.user-menu__name {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+}
+
+.user-menu__arrow {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+    transition: transform var(--transition-fast);
+}
+
+.user-menu__trigger:hover .user-menu__arrow {
+    transform: translateY(2px);
+}
+
+.user-menu__dropdown {
+    position: absolute;
+    top: calc(100% + var(--space-sm));
+    right: 0;
+    min-width: 180px;
+    background-color: var(--color-surface-secondary);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: var(--z-dropdown);
+}
+
+.user-menu__dropdown.active {
+    display: flex;
+}
+
+.user-menu__item {
+    padding: var(--space-sm) var(--space-md);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    transition: all var(--transition-fast);
+    border-bottom: 1px solid var(--color-border-primary);
+}
+
+.user-menu__item:last-child {
+    border-bottom: none;
+}
+
+.user-menu__item:hover {
+    background-color: var(--color-surface-hover);
+    color: var(--color-text-primary);
+}
+
+.user-menu__item--logout {
+    color: var(--color-loss-red);
+}
+
+.user-menu__item--logout:hover {
+    background-color: var(--color-loss-bg);
+}
+
+
+/* ==========================================================================
+   Dashboard Main Layout - Grid Structure
+   ========================================================================== */
+
+.dashboard {
+    display: grid;
+    grid-template-columns: var(--sidebar-width) 1fr var(--trading-sidebar-width);
+    grid-template-rows: 1fr;
+    height: calc(100vh - var(--header-height));
+    margin-top: var(--header-height);
+    overflow: hidden;
+}
+
+
+/* ==========================================================================
+   Main Content Area - Scrollable Center Section
+   ========================================================================== */
+
+.dashboard__main {
+    grid-column: 2;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    padding: var(--space-lg);
+    overflow-y: auto;
+    background-color: var(--color-bg-primary);
+}
+
+
+/* ==========================================================================
+   Analytics Section - Portfolio Performance
+   ========================================================================== */
+
+.analytics {
+    background-color: var(--color-surface-primary);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+}
+
+.analytics__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-lg);
+}
+
+.analytics__title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+}
+
+.analytics__controls {
+    display: flex;
+    gap: var(--space-xs);
+}
+
+.analytics__timeframe {
+    padding: var(--space-xs) var(--space-md);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-tertiary);
+    background-color: transparent;
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+}
+
+.analytics__timeframe:hover {
+    background-color: var(--color-surface-hover);
+    color: var(--color-text-secondary);
+}
+
+.analytics__timeframe--active {
+    background-color: var(--color-primary);
+    color: var(--color-text-primary);
+    border-color: var(--color-primary);
+}
+
+/* Chart Container */
+.chart-container {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    margin-bottom: var(--space-lg);
+}
+
+.chart-container__canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.chart-container__placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+    background-color: var(--color-surface-secondary);
+    border-radius: var(--radius-md);
+}
+
+.chart-container__placeholder-img {
+    width: 120px;
+    height: 120px;
+    opacity: 0.3;
+}
+
+.chart-container__placeholder-text {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+}
+
+/* Quick Stats */
+.quick-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-md);
+}
+
+.stat-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: var(--space-md);
+    background-color: var(--color-surface-secondary);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-md);
+}
+
+.stat-card__label {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-card__value {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    font-family: var(--font-mono);
+}
+
+.stat-card__value--positive {
+    color: var(--color-profit-green);
+}
+
+.stat-card__value--negative {
+    color: var(--color-loss-red);
+}
+
+.stat-card__value--success {
+    color: var(--color-success);
+}
+
+
+/* ==========================================================================
+   Holdings Section
+   ========================================================================== */
+
+.holdings {
+    background-color: var(--color-surface-primary);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+}
+
+.holdings__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-lg);
+}
+
+.holdings__title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+}
+
+.holdings__actions {
+    display: flex;
+    gap: var(--space-xs);
+}
+
+.holdings__filter {
+    padding: var(--space-xs) var(--space-md);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-tertiary);
+    background-color: transparent;
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+}
+
+.holdings__filter:hover {
+    background-color: var(--color-surface-hover);
+    color: var(--color-text-secondary);
+}
+
+.holdings__filter.active {
+    background-color: var(--color-primary);
+    color: var(--color-text-primary);
+    border-color: var(--color-primary);
+}
+
+/* Holdings Table */
+.holdings-table-wrapper {
+    overflow-x: auto;
+}
+
+.holdings-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.holdings-table__head {
+    background-color: var(--color-surface-secondary);
+}
+
+.holdings-table__header {
+    padding: var(--space-sm) var(--space-md);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-muted);
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: color var(--transition-fast);
+}
+
+.holdings-table__header:hover {
+    color: var(--color-text-secondary);
+}
+
+.holdings-table__body .holdings-table__row {
+    border-bottom: 1px solid var(--color-border-primary);
+    transition: background-color var(--transition-fast);
+}
+
+.holdings-table__body .holdings-table__row:hover {
+    background-color: var(--color-surface-hover);
+}
+
+.holdings-table__body td {
+    padding: var(--space-md);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+}
+
+.holdings-table__empty {
+    height: 300px;
+}
+
+.holdings-table__empty-cell {
+    text-align: center;
+}
+
+/* Empty State */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-2xl) var(--space-lg);
+}
+
+.empty-state__icon {
+    font-size: var(--font-size-5xl);
+    opacity: 0.3;
+}
+
+.empty-state__title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+}
+
+.empty-state__description {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    text-align: center;
+    max-width: 400px;
+}
+
+
+/* ==========================================================================
+   Asset Allocation Section
+   ========================================================================== */
+
+.allocation {
+    background-color: var(--color-surface-primary);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+}
+
+.allocation__header {
+    margin-bottom: var(--space-lg);
+}
+
+.allocation__title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+}
+
+.allocation__chart-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    align-items: center;
+}
+
+.allocation__canvas {
+    max-width: 300px;
+    max-height: 300px;
+    justify-self: center;
+}
+
+.allocation__legend {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+
+/* ==========================================================================
+   Responsive Adjustments
+   ========================================================================== */
+
+@media (max-width: 1400px) {
+    .dashboard {
+        grid-template-columns: var(--sidebar-width) 1fr 320px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .dashboard-header__metrics {
+        gap: var(--space-md);
+    }
+    
+    .allocation__chart-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 992px) {
+    .dashboard {
+        grid-template-columns: 60px 1fr;
+    }
+    
+    .trading-sidebar {
+        position: fixed;
+        right: -100%;
+        top: var(--header-height);
+        width: var(--trading-sidebar-width);
+        height: calc(100vh - var(--header-height));
+        transition: right var(--transition-base);
+        z-index: var(--z-sticky);
+    }
+    
+    .trading-sidebar.active {
+        right: 0;
+    }
+}

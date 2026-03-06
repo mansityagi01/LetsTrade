@@ -1,0 +1,638 @@
+/* ==========================================================================
+   Trading Sidebar - Right Panel
+   ========================================================================== */
+
+.trading-sidebar {
+    grid-column: 3;
+    position: sticky;
+    top: var(--header-height);
+    right: 0;
+    width: var(--trading-sidebar-width);
+    height: calc(100vh - var(--header-height));
+    background-color: var(--color-surface-primary);
+    border-left: 1px solid var(--color-border-primary);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    z-index: var(--z-sticky);
+}
+
+
+/* ==========================================================================
+   Watchlist Section
+   ========================================================================== */
+
+.watchlist {
+    padding: var(--space-lg);
+    border-bottom: 1px solid var(--color-border-primary);
+}
+
+.watchlist__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-md);
+}
+
+.watchlist__title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+}
+
+.watchlist__refresh {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface-secondary);
+    transition: all var(--transition-fast);
+}
+
+.watchlist__refresh:hover {
+    background-color: var(--color-surface-hover);
+    transform: rotate(180deg);
+}
+
+.watchlist__refresh-icon {
+    font-size: var(--font-size-base);
+}
+
+.watchlist__tabs {
+    display: flex;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-md);
+    background-color: var(--color-surface-secondary);
+    padding: var(--space-xs);
+    border-radius: var(--radius-md);
+}
+
+.watchlist__tab {
+    flex: 1;
+    padding: var(--space-sm);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-tertiary);
+    background-color: transparent;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+    text-align: center;
+}
+
+.watchlist__tab:hover {
+    color: var(--color-text-secondary);
+}
+
+.watchlist__tab--active {
+    background-color: var(--color-primary);
+    color: var(--color-text-primary);
+}
+
+.watchlist__search {
+    position: relative;
+    margin-bottom: var(--space-md);
+}
+
+.watchlist__search-input {
+    width: 100%;
+    padding: var(--space-sm) var(--space-md);
+    padding-right: var(--space-3xl);
+    background-color: var(--color-surface-secondary);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-md);
+    color: var(--color-text-primary);
+    font-size: var(--font-size-sm);
+    transition: all var(--transition-fast);
+}
+
+.watchlist__search-input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-bg);
+}
+
+.watchlist__search-input::placeholder {
+    color: var(--color-text-muted);
+}
+
+.watchlist__search-icon {
+    position: absolute;
+    right: var(--space-md);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-muted);
+    pointer-events: none;
+}
+
+.asset-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.asset-list__loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+    padding: var(--space-2xl);
+}
+
+.asset-list__loading-text {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+}
+
+.asset-list__container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+
+/* ==========================================================================
+   Asset Card
+   ========================================================================== */
+
+.asset-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-md);
+    background-color: var(--color-surface-secondary);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+    cursor: pointer;
+}
+
+.asset-card:hover {
+    background-color: var(--color-surface-hover);
+    border-color: var(--color-border-focus);
+    transform: translateX(2px);
+}
+
+.asset-card.selected {
+    border-color: var(--color-primary);
+    background-color: var(--color-primary-bg);
+}
+
+.asset-card__info {
+    flex: 1;
+}
+
+.asset-card__symbol {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    font-family: var(--font-mono);
+}
+
+.asset-card__name {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    margin-top: var(--space-xs);
+}
+
+.asset-card__price {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-xs);
+}
+
+.asset-card__value {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    font-family: var(--font-mono);
+}
+
+.asset-card__change {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    font-family: var(--font-mono);
+}
+
+.asset-card__change--positive {
+    color: var(--color-profit-green);
+}
+
+.asset-card__change--negative {
+    color: var(--color-loss-red);
+}
+
+.asset-card__action {
+    padding: var(--space-xs) var(--space-md);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-primary);
+    background-color: transparent;
+    border: 1px solid var(--color-primary);
+    border-radius: var(--radius-sm);
+    margin-left: var(--space-md);
+    transition: all var(--transition-fast);
+}
+
+.asset-card__action:hover {
+    background-color: var(--color-primary);
+    color: var(--color-text-primary);
+}
+
+
+/* ==========================================================================
+   Trading Panel - Buy/Sell Form
+   ========================================================================== */
+
+.trading-panel {
+    padding: var(--space-lg);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.trading-panel__header {
+    margin-bottom: var(--space-md);
+}
+
+.trading-panel__title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+}
+
+.trading-panel__tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-lg);
+    background-color: var(--color-surface-secondary);
+    padding: var(--space-xs);
+    border-radius: var(--radius-md);
+}
+
+.trading-panel__tab {
+    padding: var(--space-md);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-tertiary);
+    background-color: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.trading-panel__tab:hover {
+    color: var(--color-text-secondary);
+}
+
+.trading-panel__tab--active[data-action="buy"] {
+    background-color: var(--color-profit-bg);
+    color: var(--color-profit-green);
+    border-bottom-color: var(--color-profit-green);
+}
+
+.trading-panel__tab--active[data-action="sell"] {
+    background-color: var(--color-loss-bg);
+    color: var(--color-loss-red);
+    border-bottom-color: var(--color-loss-red);
+}
+
+
+/* ==========================================================================
+   Trade Form
+   ========================================================================== */
+
+.trade-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.trade-form__asset {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.trade-form__label {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.selected-asset {
+    padding: var(--space-md);
+    background-color: var(--color-surface-secondary);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-md);
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.selected-asset__placeholder {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    font-style: italic;
+}
+
+.selected-asset__info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    width: 100%;
+}
+
+.selected-asset__symbol {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    font-family: var(--font-mono);
+}
+
+.selected-asset__name {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+}
+
+.selected-asset__price {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary);
+    font-family: var(--font-mono);
+    margin-left: auto;
+}
+
+.trade-form__group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.trade-form__input-group {
+    display: flex;
+    align-items: center;
+    background-color: var(--color-surface-secondary);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: all var(--transition-fast);
+}
+
+.trade-form__input-group:focus-within {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-bg);
+}
+
+.trade-form__btn-decrement,
+.trade-form__btn-increment {
+    width: 40px;
+    height: var(--input-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    background-color: var(--color-surface-hover);
+    border: none;
+    transition: all var(--transition-fast);
+    cursor: pointer;
+}
+
+.trade-form__btn-decrement:hover,
+.trade-form__btn-increment:hover {
+    background-color: var(--color-primary);
+    color: var(--color-text-primary);
+}
+
+.trade-form__input {
+    flex: 1;
+    padding: var(--input-padding-y) var(--input-padding-x);
+    background-color: transparent;
+    border: none;
+    color: var(--color-text-primary);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    font-family: var(--font-mono);
+    text-align: center;
+}
+
+.trade-form__input:focus {
+    outline: none;
+}
+
+.trade-form__error {
+    font-size: var(--font-size-xs);
+    color: var(--color-loss-red);
+    display: none;
+}
+
+.trade-form__error.active {
+    display: block;
+}
+
+.trade-form__info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-sm) var(--space-md);
+    background-color: var(--color-surface-secondary);
+    border-radius: var(--radius-sm);
+}
+
+.trade-form__info-label {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+}
+
+.trade-form__info-value {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    font-family: var(--font-mono);
+}
+
+.trade-form__summary {
+    background-color: var(--color-surface-secondary);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.trade-form__summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.trade-form__summary-label {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-tertiary);
+}
+
+.trade-form__summary-value {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+    font-family: var(--font-mono);
+}
+
+.trade-form__summary-divider {
+    height: 1px;
+    background-color: var(--color-border-primary);
+    margin: var(--space-xs) 0;
+}
+
+.trade-form__summary-row--total {
+    margin-top: var(--space-xs);
+}
+
+.trade-form__summary-row--total .trade-form__summary-label {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+}
+
+.trade-form__summary-value--highlight {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+}
+
+.trade-form__balance {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-sm) var(--space-md);
+    background-color: var(--color-bg-tertiary);
+    border-radius: var(--radius-sm);
+}
+
+.trade-form__balance-label {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+}
+
+.trade-form__balance-value {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    font-family: var(--font-mono);
+}
+
+.trade-form__submit {
+    width: 100%;
+    height: var(--btn-height-lg);
+    padding: var(--btn-padding-y) var(--btn-padding-x);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: var(--shadow-md);
+}
+
+.trade-form__submit:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary));
+}
+
+.trade-form__submit:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
+}
+
+.trade-form__submit:disabled {
+    background: var(--color-surface-secondary);
+    color: var(--color-text-disabled);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.trade-form__submit--buy {
+    background: linear-gradient(135deg, var(--color-profit-green), var(--color-profit-green-dark));
+}
+
+.trade-form__submit--buy:hover {
+    background: linear-gradient(135deg, var(--color-profit-green-light), var(--color-profit-green));
+}
+
+.trade-form__submit--sell {
+    background: linear-gradient(135deg, var(--color-loss-red), var(--color-loss-red-dark));
+}
+
+.trade-form__submit--sell:hover {
+    background: linear-gradient(135deg, var(--color-loss-red-light), var(--color-loss-red));
+}
+
+.trade-form__options {
+    margin-top: var(--space-sm);
+}
+
+.trade-form__checkbox {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    cursor: pointer;
+}
+
+.trade-form__checkbox-input {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--color-border-primary);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+}
+
+.trade-form__checkbox-input:checked {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.trade-form__checkbox-label {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+}
+
+
+/* ==========================================================================
+   Responsive Trading Panel
+   ========================================================================== */
+
+@media (max-width: 992px) {
+    .trading-sidebar {
+        position: fixed;
+        right: -100%;
+        width: var(--trading-sidebar-width);
+        transition: right var(--transition-base);
+        z-index: var(--z-modal);
+        box-shadow: var(--shadow-xl);
+    }
+    
+    .trading-sidebar.active {
+        right: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .trading-sidebar {
+        width: 100%;
+    }
+}

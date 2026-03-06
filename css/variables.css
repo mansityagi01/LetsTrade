@@ -1,0 +1,188 @@
+/* ==========================================================================
+   CSS Variables - Midnight Dark Mode Design System
+   ========================================================================== */
+
+:root {
+    /* ===== Color System - Midnight Dark Mode ===== */
+    
+    /* Background Colors - Deep Dark Blues/Grays */
+    --color-bg-primary: #0a0e1a;           /* Main background - Deep midnight blue */
+    --color-bg-secondary: #111827;         /* Secondary background - Dark slate */
+    --color-bg-tertiary: #1a202e;          /* Tertiary background - Lighter slate */
+    
+    /* Surface Colors - Cards & Containers */
+    --color-surface-primary: #1a2332;      /* Primary surface - Elevated containers */
+    --color-surface-secondary: #222d3f;    /* Secondary surface - Nested cards */
+    --color-surface-hover: #2a3647;        /* Hover state for surfaces */
+    --color-surface-active: #323e52;       /* Active/Selected state */
+    
+    /* Border & Divider Colors */
+    --color-border-primary: #2d3748;       /* Primary borders */
+    --color-border-secondary: #374151;     /* Secondary borders */
+    --color-border-focus: #4a5568;         /* Focus state borders */
+    --color-divider: rgba(71, 85, 105, 0.3); /* Subtle dividers */
+    
+    /* Text Colors - High Contrast */
+    --color-text-primary: #f8fafc;         /* Primary text - Almost white */
+    --color-text-secondary: #cbd5e1;       /* Secondary text - Light gray */
+    --color-text-tertiary: #94a3b8;        /* Tertiary text - Medium gray */
+    --color-text-muted: #64748b;           /* Muted text - Darker gray */
+    --color-text-disabled: #475569;        /* Disabled text */
+    
+    /* Trading Semantic Colors */
+    --color-profit-green: #10b981;         /* Profit/Positive - Emerald green */
+    --color-profit-green-dark: #059669;    /* Dark profit green */
+    --color-profit-green-light: #34d399;   /* Light profit green */
+    --color-profit-bg: rgba(16, 185, 129, 0.1); /* Profit background tint */
+    
+    --color-loss-red: #ef4444;             /* Loss/Negative - Red */
+    --color-loss-red-dark: #dc2626;        /* Dark loss red */
+    --color-loss-red-light: #f87171;       /* Light loss red */
+    --color-loss-bg: rgba(239, 68, 68, 0.1); /* Loss background tint */
+    
+    /* Primary Accent Colors */
+    --color-primary: #3b82f6;              /* Primary brand color - Blue */
+    --color-primary-dark: #2563eb;         /* Dark primary */
+    --color-primary-light: #60a5fa;        /* Light primary */
+    --color-primary-bg: rgba(59, 130, 246, 0.1); /* Primary background tint */
+    
+    /* Secondary Accent Colors */
+    --color-secondary: #8b5cf6;            /* Secondary accent - Purple */
+    --color-secondary-dark: #7c3aed;       /* Dark secondary */
+    --color-secondary-light: #a78bfa;      /* Light secondary */
+    
+    /* Warning & Info Colors */
+    --color-warning: #f59e0b;              /* Warning - Amber */
+    --color-warning-dark: #d97706;         /* Dark warning */
+    --color-warning-bg: rgba(245, 158, 11, 0.1); /* Warning background */
+    
+    --color-info: #06b6d4;                 /* Info - Cyan */
+    --color-info-dark: #0891b2;            /* Dark info */
+    --color-info-bg: rgba(6, 182, 212, 0.1); /* Info background */
+    
+    /* Success & Error for UI Feedback */
+    --color-success: var(--color-profit-green);
+    --color-error: var(--color-loss-red);
+    
+    /* Chart Colors */
+    --color-chart-line: #3b82f6;           /* Primary chart line */
+    --color-chart-grid: rgba(71, 85, 105, 0.2); /* Chart grid lines */
+    --color-chart-axis: #64748b;           /* Chart axis labels */
+    
+    /* Overlay & Shadow Colors */
+    --color-overlay: rgba(10, 14, 26, 0.8); /* Modal overlay */
+    --color-shadow-sm: rgba(0, 0, 0, 0.2);  /* Small shadow */
+    --color-shadow-md: rgba(0, 0, 0, 0.3);  /* Medium shadow */
+    --color-shadow-lg: rgba(0, 0, 0, 0.5);  /* Large shadow */
+    
+    
+    /* ===== Spacing System ===== */
+    --space-xs: 0.25rem;      /* 4px */
+    --space-sm: 0.5rem;       /* 8px */
+    --space-md: 1rem;         /* 16px */
+    --space-lg: 1.5rem;       /* 24px */
+    --space-xl: 2rem;         /* 32px */
+    --space-2xl: 3rem;        /* 48px */
+    --space-3xl: 4rem;        /* 64px */
+    --space-4xl: 6rem;        /* 96px */
+    
+    
+    /* ===== Border Radius System ===== */
+    --radius-sm: 0.25rem;     /* 4px - Small elements */
+    --radius-md: 0.5rem;      /* 8px - Standard cards */
+    --radius-lg: 0.75rem;     /* 12px - Large cards */
+    --radius-xl: 1rem;        /* 16px - Extra large */
+    --radius-full: 9999px;    /* Fully rounded */
+    
+    
+    /* ===== Typography System ===== */
+    
+    /* Font Families */
+    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 
+                    'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 
+                    'Droid Sans', 'Helvetica Neue', sans-serif;
+    --font-mono: 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+    
+    /* Font Sizes */
+    --font-size-xs: 0.75rem;      /* 12px */
+    --font-size-sm: 0.875rem;     /* 14px */
+    --font-size-base: 1rem;       /* 16px */
+    --font-size-lg: 1.125rem;     /* 18px */
+    --font-size-xl: 1.25rem;      /* 20px */
+    --font-size-2xl: 1.5rem;      /* 24px */
+    --font-size-3xl: 1.875rem;    /* 30px */
+    --font-size-4xl: 2.25rem;     /* 36px */
+    --font-size-5xl: 3rem;        /* 48px */
+    
+    /* Font Weights */
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-extrabold: 800;
+    
+    /* Line Heights */
+    --line-height-tight: 1.25;
+    --line-height-normal: 1.5;
+    --line-height-relaxed: 1.75;
+    --line-height-loose: 2;
+    
+    
+    /* ===== Shadow System ===== */
+    --shadow-sm: 0 1px 2px 0 var(--color-shadow-sm);
+    --shadow-md: 0 4px 6px -1px var(--color-shadow-md), 
+                 0 2px 4px -1px var(--color-shadow-sm);
+    --shadow-lg: 0 10px 15px -3px var(--color-shadow-md), 
+                 0 4px 6px -2px var(--color-shadow-sm);
+    --shadow-xl: 0 20px 25px -5px var(--color-shadow-lg), 
+                 0 10px 10px -5px var(--color-shadow-sm);
+    
+    
+    /* ===== Transition System ===== */
+    --transition-fast: 150ms ease-in-out;
+    --transition-base: 200ms ease-in-out;
+    --transition-slow: 300ms ease-in-out;
+    
+    
+    /* ===== Z-Index Scale ===== */
+    --z-dropdown: 1000;
+    --z-sticky: 1020;
+    --z-fixed: 1030;
+    --z-modal-backdrop: 1040;
+    --z-modal: 1050;
+    --z-popover: 1060;
+    --z-tooltip: 1070;
+    
+    
+    /* ===== Layout Dimensions ===== */
+    --header-height: 70px;
+    --sidebar-width: 240px;
+    --trading-sidebar-width: 360px;
+    --container-max-width: 1400px;
+    
+    
+    /* ===== Component-Specific Variables ===== */
+    
+    /* Buttons */
+    --btn-height-sm: 32px;
+    --btn-height-md: 40px;
+    --btn-height-lg: 48px;
+    --btn-padding-x: 1.5rem;
+    --btn-padding-y: 0.625rem;
+    
+    /* Inputs */
+    --input-height: 42px;
+    --input-padding-x: 1rem;
+    --input-padding-y: 0.625rem;
+    --input-border-width: 1px;
+    
+    /* Cards */
+    --card-padding: var(--space-lg);
+    --card-border-width: 1px;
+    
+    /* Scrollbar */
+    --scrollbar-width: 8px;
+    --scrollbar-track: var(--color-bg-secondary);
+    --scrollbar-thumb: var(--color-border-primary);
+    --scrollbar-thumb-hover: var(--color-border-secondary);
+}

@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="LetsTrade Dashboard - Manage your virtual portfolio, trade stocks and crypto, track real-time P&L">
+    <meta name="author" content="LetsTrade Team">
+    
+    <title>Dashboard | LetsTrade - Paper Trading Simulator</title>
+    
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="css/portfolio.css">
+    <link rel="stylesheet" href="css/trading-panel.css">
+    <link rel="stylesheet" href="css/charts.css">
+    <link rel="stylesheet" href="css/asset-list.css">
+    <link rel="stylesheet" href="css/modal.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/images/logo.svg">
+</head>
+<body class="dashboard-page">
+
+    <!-- Top Header -->
+    <header class="dashboard-header">
+        <div class="dashboard-header__container">
+            <!-- Logo -->
+            <div class="dashboard-header__logo">
+                <img src="assets/images/logo.svg" alt="LetsTrade Logo" class="dashboard-header__logo-img">
+                <span class="dashboard-header__logo-text">LetsTrade</span>
+            </div>
+
+            <!-- Balance & P&L Section -->
+            <div class="dashboard-header__metrics">
+                <div class="balance-display">
+                    <span class="balance-display__label">Available Balance</span>
+                    <span class="balance-display__value" id="available-balance" data-currency="USD">$10,000.00</span>
+                </div>
+
+                <div class="pnl-display">
+                    <span class="pnl-display__label">Total P&L</span>
+                    <span class="pnl-display__value pnl-display__value--positive" id="total-pnl" data-value="0">
+                        +$0.00 (0.00%)
+                    </span>
+                </div>
+
+                <div class="portfolio-display">
+                    <span class="portfolio-display__label">Portfolio Value</span>
+                    <span class="portfolio-display__value" id="portfolio-value">$10,000.00</span>
+                </div>
+            </div>
+
+            <!-- User Actions -->
+            <div class="dashboard-header__actions">
+                <button class="dashboard-header__notification" id="notification-btn" aria-label="Notifications">
+                    <span class="dashboard-header__notification-icon">🔔</span>
+                    <span class="dashboard-header__notification-badge">3</span>
+                </button>
+                
+                <div class="user-menu">
+                    <button class="user-menu__trigger" id="user-menu-trigger">
+                        <span class="user-menu__avatar">👤</span>
+                        <span class="user-menu__name" id="username-display">User</span>
+                        <span class="user-menu__arrow">▼</span>
+                    </button>
+                    <div class="user-menu__dropdown" id="user-menu-dropdown">
+                        <a href="#" class="user-menu__item">Profile</a>
+                        <a href="#" class="user-menu__item">Settings</a>
+                        <a href="#" class="user-menu__item user-menu__item--logout" id="logout-btn">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dashboard Content Wrapper -->
+    <div class="dashboard">
+
+        <!-- Left Sidebar Navigation -->
+        <aside class="sidebar">
+            <nav class="sidebar__nav">
+                <ul class="sidebar__menu">
+                    <li class="sidebar__item">
+                        <a href="#dashboard" class="sidebar__link sidebar__link--active" data-view="dashboard">
+                            <span class="sidebar__icon">📊</span>
+                            <span class="sidebar__text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="sidebar__item">
+                        <a href="#portfolio" class="sidebar__link" data-view="portfolio">
+                            <span class="sidebar__icon">💼</span>
+                            <span class="sidebar__text">Portfolio</span>
+                        </a>
+                    </li>
+                    <li class="sidebar__item">
+                        <a href="#transactions" class="sidebar__link" data-view="transactions">
+                            <span class="sidebar__icon">📝</span>
+                            <span class="sidebar__text">Transaction History</span>
+                        </a>
+                    </li>
+                    <li class="sidebar__item">
+                        <a href="#settings" class="sidebar__link" data-view="settings">
+                            <span class="sidebar__icon">⚙️</span>
+                            <span class="sidebar__text">Settings</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="sidebar__divider"></div>
+
+                <!-- Market Status Indicator -->
+                <div class="market-status">
+                    <span class="market-status__label">Market</span>
+                    <div class="market-status__indicator">
+                        <span class="market-status__dot market-status__dot--active"></span>
+                        <span class="market-status__text">Simulation Active</span>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Central Area (Analytics & Holdings) -->
+        <main class="dashboard__main">
+
+            <!-- Portfolio Performance Section -->
+            <section class="analytics">
+                <div class="analytics__header">
+                    <h2 class="analytics__title">Portfolio Performance</h2>
+                    <div class="analytics__controls">
+                        <button class="analytics__timeframe analytics__timeframe--active" data-timeframe="1D">1D</button>
+                        <button class="analytics__timeframe" data-timeframe="1W">1W</button>
+                        <button class="analytics__timeframe" data-timeframe="1M">1M</button>
+                        <button class="analytics__timeframe" data-timeframe="3M">3M</button>
+                        <button class="analytics__timeframe" data-timeframe="ALL">ALL</button>
+                    </div>
+                </div>
+
+                <!-- Chart Container -->
+                <div class="chart-container">
+                    <canvas id="portfolio-chart" class="chart-container__canvas"></canvas>
+                    <div class="chart-container__placeholder" id="chart-placeholder">
+                        <img src="assets/images/chart-placeholder.png" alt="Chart loading" class="chart-container__placeholder-img">
+                        <p class="chart-container__placeholder-text">Initializing chart...</p>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="quick-stats">
+                    <div class="stat-card">
+                        <span class="stat-card__label">Today's Change</span>
+                        <span class="stat-card__value stat-card__value--positive" id="today-change">+$0.00</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-card__label">Total Trades</span>
+                        <span class="stat-card__value" id="total-trades">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-card__label">Winning Trades</span>
+                        <span class="stat-card__value stat-card__value--success" id="winning-trades">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-card__label">Best Performer</span>
+                        <span class="stat-card__value" id="best-performer">N/A</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Holdings Section -->
+            <section class="holdings">
+                <div class="holdings__header">
+                    <h2 class="holdings__title">Current Holdings</h2>
+                    <div class="holdings__actions">
+                        <button class="holdings__filter" id="filter-all">All</button>
+                        <button class="holdings__filter" id="filter-stocks">Stocks</button>
+                        <button class="holdings__filter" id="filter-crypto">Crypto</button>
+                    </div>
+                </div>
+
+                <!-- Holdings Table -->
+                <div class="holdings-table-wrapper">
+                    <table class="holdings-table">
+                        <thead class="holdings-table__head">
+                            <tr class="holdings-table__row">
+                                <th class="holdings-table__header" data-sort="asset">Asset</th>
+                                <th class="holdings-table__header" data-sort="quantity">Quantity</th>
+                                <th class="holdings-table__header" data-sort="avgPrice">Avg. Price</th>
+                                <th class="holdings-table__header" data-sort="currentPrice">Current Price</th>
+                                <th class="holdings-table__header" data-sort="value">Market Value</th>
+                                <th class="holdings-table__header" data-sort="pnl">P&L</th>
+                                <th class="holdings-table__header">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="holdings-table__body" id="holdings-table-body">
+                            <!-- Empty State -->
+                            <tr class="holdings-table__empty" id="holdings-empty-state">
+                                <td colspan="7" class="holdings-table__empty-cell">
+                                    <div class="empty-state">
+                                        <span class="empty-state__icon">📦</span>
+                                        <h3 class="empty-state__title">No Holdings Yet</h3>
+                                        <p class="empty-state__description">
+                                            Start trading by selecting an asset from the watchlist and placing your first order.
+                                        </p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- Dynamic rows will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Asset Allocation Chart -->
+            <section class="allocation">
+                <div class="allocation__header">
+                    <h2 class="allocation__title">Asset Allocation</h2>
+                </div>
+                <div class="allocation__chart-container">
+                    <canvas id="allocation-chart" class="allocation__canvas"></canvas>
+                    <div class="allocation__legend" id="allocation-legend">
+                        <!-- Legend will be populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Right Sidebar (Trading Panel & Watchlist) -->
+        <aside class="trading-sidebar">
+
+            <!-- Watchlist Section -->
+            <section class="watchlist">
+                <div class="watchlist__header">
+                    <h2 class="watchlist__title">Watchlist</h2>
+                    <button class="watchlist__refresh" id="refresh-prices" aria-label="Refresh prices">
+                        <span class="watchlist__refresh-icon">🔄</span>
+                    </button>
+                </div>
+
+                <!-- Market Category Tabs -->
+                <div class="watchlist__tabs">
+                    <button class="watchlist__tab watchlist__tab--active" data-market="indian-stocks">
+                        Indian Stocks
+                    </button>
+                    <button class="watchlist__tab" data-market="us-stocks">
+                        US Stocks
+                    </button>
+                    <button class="watchlist__tab" data-market="crypto">
+                        Crypto
+                    </button>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="watchlist__search">
+                    <input 
+                        type="text" 
+                        class="watchlist__search-input" 
+                        id="asset-search" 
+                        placeholder="Search assets..."
+                        autocomplete="off"
+                    >
+                    <span class="watchlist__search-icon">🔍</span>
+                </div>
+
+                <!-- Asset List -->
+                <div class="asset-list" id="asset-list">
+                    <!-- Loading State -->
+                    <div class="asset-list__loading" id="asset-loading">
+                        <div class="loading-spinner"></div>
+                        <p class="asset-list__loading-text">Loading assets...</p>
+                    </div>
+
+                    <!-- Asset items will be dynamically populated -->
+                    <div class="asset-list__container" id="asset-list-container">
+                        <!-- Example structure (will be generated by JS):
+                        <article class="asset-card" data-symbol="AAPL" data-price="180.50">
+                            <div class="asset-card__info">
+                                <h3 class="asset-card__symbol">AAPL</h3>
+                                <p class="asset-card__name">Apple Inc.</p>
+                            </div>
+                            <div class="asset-card__price">
+                                <span class="asset-card__value">$180.50</span>
+                                <span class="asset-card__change asset-card__change--positive">+2.5%</span>
+                            </div>
+                            <button class="asset-card__action">Trade</button>
+                        </article>
+                        -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Trading Panel -->
+            <section class="trading-panel">
+                <div class="trading-panel__header">
+                    <h2 class="trading-panel__title">Quick Trade</h2>
+                </div>
+
+                <!-- Trade Type Selector -->
+                <div class="trading-panel__tabs">
+                    <button class="trading-panel__tab trading-panel__tab--active" data-action="buy">
+                        Buy
+                    </button>
+                    <button class="trading-panel__tab" data-action="sell">
+                        Sell
+                    </button>
+                </div>
+
+                <!-- Trading Form -->
+                <form class="trade-form" id="trade-form" novalidate>
+                    
+                    <!-- Selected Asset Display -->
+                    <div class="trade-form__asset">
+                        <label class="trade-form__label">Selected Asset</label>
+                        <div class="selected-asset" id="selected-asset">
+                            <span class="selected-asset__placeholder">Select an asset from watchlist</span>
+                            <!-- Will be populated when asset is selected:
+                            <div class="selected-asset__info">
+                                <span class="selected-asset__symbol">AAPL</span>
+                                <span class="selected-asset__name">Apple Inc.</span>
+                                <span class="selected-asset__price">$180.50</span>
+                            </div>
+                            -->
+                        </div>
+                    </div>
+
+                    <!-- Quantity Input -->
+                    <div class="trade-form__group">
+                        <label for="trade-quantity" class="trade-form__label">Quantity</label>
+                        <div class="trade-form__input-group">
+                            <button type="button" class="trade-form__btn-decrement" id="quantity-decrement">−</button>
+                            <input 
+                                type="number" 
+                                id="trade-quantity" 
+                                name="quantity"
+                                class="trade-form__input" 
+                                value="1"
+                                min="0.001"
+                                step="0.001"
+                                required
+                            >
+                            <button type="button" class="trade-form__btn-increment" id="quantity-increment">+</button>
+                        </div>
+                        <span class="trade-form__error" id="quantity-error"></span>
+                    </div>
+
+                    <!-- Current Price Display -->
+                    <div class="trade-form__info">
+                        <span class="trade-form__info-label">Current Price</span>
+                        <span class="trade-form__info-value" id="current-price-display">--</span>
+                    </div>
+
+                    <!-- Estimated Total Cost -->
+                    <div class="trade-form__summary">
+                        <div class="trade-form__summary-row">
+                            <span class="trade-form__summary-label">Quantity</span>
+                            <span class="trade-form__summary-value" id="summary-quantity">0</span>
+                        </div>
+                        <div class="trade-form__summary-row">
+                            <span class="trade-form__summary-label">Price per Unit</span>
+                            <span class="trade-form__summary-value" id="summary-price">$0.00</span>
+                        </div>
+                        <div class="trade-form__summary-divider"></div>
+                        <div class="trade-form__summary-row trade-form__summary-row--total">
+                            <span class="trade-form__summary-label">Estimated Total</span>
+                            <span class="trade-form__summary-value trade-form__summary-value--highlight" id="estimated-total">$0.00</span>
+                        </div>
+                    </div>
+
+                    <!-- Available Balance Info -->
+                    <div class="trade-form__balance">
+                        <span class="trade-form__balance-label">Available Balance</span>
+                        <span class="trade-form__balance-value" id="trade-available-balance">$10,000.00</span>
+                    </div>
+
+                    <!-- Execute Button -->
+                    <button type="submit" class="trade-form__submit trade-form__submit--buy" id="execute-trade-btn" disabled>
+                        Execute Buy Order
+                    </button>
+
+                    <!-- Order Type Options (Future Enhancement) -->
+                    <div class="trade-form__options">
+                        <label class="trade-form__checkbox">
+                            <input type="checkbox" name="marketOrder" class="trade-form__checkbox-input" checked disabled>
+                            <span class="trade-form__checkbox-label">Market Order</span>
+                        </label>
+                    </div>
+
+                </form>
+            </section>
+
+        </aside>
+
+    </div>
+
+    <!-- Trade Confirmation Modal -->
+    <div class="modal" id="trade-confirmation-modal">
+        <div class="modal__overlay" id="modal-overlay"></div>
+        <div class="modal__container">
+            <div class="modal__header">
+                <h2 class="modal__title">Confirm Trade</h2>
+                <button class="modal__close" id="modal-close" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal__body">
+                <div class="trade-confirmation">
+                    <div class="trade-confirmation__row">
+                        <span class="trade-confirmation__label">Action</span>
+                        <span class="trade-confirmation__value trade-confirmation__value--action" id="confirm-action">BUY</span>
+                    </div>
+                    <div class="trade-confirmation__row">
+                        <span class="trade-confirmation__label">Asset</span>
+                        <span class="trade-confirmation__value" id="confirm-asset">AAPL - Apple Inc.</span>
+                    </div>
+                    <div class="trade-confirmation__row">
+                        <span class="trade-confirmation__label">Quantity</span>
+                        <span class="trade-confirmation__value" id="confirm-quantity">10</span>
+                    </div>
+                    <div class="trade-confirmation__row">
+                        <span class="trade-confirmation__label">Price</span>
+                        <span class="trade-confirmation__value" id="confirm-price">$180.50</span>
+                    </div>
+                    <div class="trade-confirmation__divider"></div>
+                    <div class="trade-confirmation__row trade-confirmation__row--total">
+                        <span class="trade-confirmation__label">Total Amount</span>
+                        <span class="trade-confirmation__value trade-confirmation__value--highlight" id="confirm-total">$1,805.00</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal__footer">
+                <button class="modal__btn modal__btn--secondary" id="cancel-trade">Cancel</button>
+                <button class="modal__btn modal__btn--primary" id="confirm-trade">Confirm Trade</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast Container -->
+    <div class="notification-container" id="notification-container">
+        <!-- Notifications will be dynamically inserted here -->
+    </div>
+
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <!-- JavaScript Modules -->
+    <script type="module" src="js/config.js"></script>
+    <script type="module" src="js/main.js"></script>
+    
+    <!-- Data Layer -->
+    <script type="module" src="js/data/indian-stocks.js"></script>
+    <script type="module" src="js/data/us-stocks.js"></script>
+    <script type="module" src="js/data/cryptocurrencies.js"></script>
+    <script type="module" src="js/data/currency-rates.js"></script>
+    
+    <!-- Services -->
+    <script type="module" src="js/services/market-simulator.js"></script>
+    <script type="module" src="js/services/portfolio-service.js"></script>
+    <script type="module" src="js/services/trade-executor.js"></script>
+    <script type="module" src="js/services/pnl-calculator.js"></script>
+    
+    <!-- UI Components -->
+    <script type="module" src="js/ui/dashboard-controller.js"></script>
+    <script type="module" src="js/ui/asset-renderer.js"></script>
+    <script type="module" src="js/ui/portfolio-display.js"></script>
+    <script type="module" src="js/ui/trading-form.js"></script>
+    <script type="module" src="js/ui/modal-handler.js"></script>
+    <script type="module" src="js/ui/notification.js"></script>
+    
+    <!-- Charts -->
+    <script type="module" src="js/charts/portfolio-chart.js"></script>
+    <script type="module" src="js/charts/allocation-chart.js"></script>
+    <script type="module" src="js/charts/price-chart.js"></script>
+    
+    <!-- Utils -->
+    <script type="module" src="js/utils/formatters.js"></script>
+    <script type="module" src="js/utils/validators.js"></script>
+    <script type="module" src="js/utils/date-utils.js"></script>
+    <script type="module" src="js/utils/storage.js"></script>
+    
+    <!-- Auth (for session check) -->
+    <script type="module" src="js/auth/session.js"></script>
+
+</body>
+</html>

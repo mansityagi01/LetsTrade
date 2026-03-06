@@ -1,0 +1,292 @@
+/* ==========================================================================
+   Portfolio & Holdings Display
+   ========================================================================== */
+
+.portfolio {
+    background-color: var(--color-surface-primary);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+}
+
+.portfolio__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--color-border-primary);
+}
+
+.portfolio__title {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+}
+
+.portfolio__value {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    font-family: var(--font-mono);
+}
+
+
+/* ==========================================================================
+   Holdings Table Styling
+   ========================================================================== */
+
+.holdings-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-size-sm);
+}
+
+.holdings-table__head {
+    background-color: var(--color-surface-secondary);
+    border-bottom: 2px solid var(--color-border-secondary);
+}
+
+.holdings-table__header {
+    padding: var(--space-md);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-secondary);
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    user-select: none;
+    transition: color var(--transition-fast);
+}
+
+.holdings-table__header:hover {
+    color: var(--color-text-primary);
+}
+
+.holdings-table__body tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: background-color var(--transition-fast);
+}
+
+.holdings-table__body tr:hover {
+    background-color: var(--color-surface-hover);
+}
+
+.holdings-table__body tr:last-child {
+    border-bottom: none;
+}
+
+.holdings-table__body td {
+    padding: var(--space-md);
+    color: var(--color-text-secondary);
+    font-family: var(--font-mono);
+}
+
+.holdings-table__cell--asset {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+}
+
+.holdings-table__cell--symbol {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+}
+
+.holdings-table__cell--name {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    font-family: var(--font-primary);
+}
+
+.holdings-table__cell--actions {
+    display: flex;
+    gap: var(--space-sm);
+}
+
+.holdings-table__action-btn {
+    padding: var(--space-xs) var(--space-md);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+    background-color: var(--color-surface-secondary);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+    cursor: pointer;
+}
+
+.holdings-table__action-btn:hover {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.holdings-table__action-btn--sell {
+    background-color: transparent;
+    border-color: var(--color-loss-red);
+    color: var(--color-loss-red);
+}
+
+.holdings-table__action-btn--sell:hover {
+    background-color: var(--color-loss-red);
+    color: var(--color-text-primary);
+}
+
+
+/* ==========================================================================
+   P&L Display Utilities
+   ========================================================================== */
+
+.pnl-positive,
+.profit-value,
+.gain-value {
+    color: var(--color-profit-green) !important;
+    font-weight: var(--font-weight-semibold);
+}
+
+.pnl-negative,
+.loss-value {
+    color: var(--color-loss-red) !important;
+    font-weight: var(--font-weight-semibold);
+}
+
+.pnl-neutral {
+    color: var(--color-text-muted) !important;
+}
+
+.pnl-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    font-family: var(--font-mono);
+}
+
+.pnl-badge--positive {
+    background-color: var(--color-profit-bg);
+    color: var(--color-profit-green);
+}
+
+.pnl-badge--negative {
+    background-color: var(--color-loss-bg);
+    color: var(--color-loss-red);
+}
+
+.pnl-arrow {
+    font-size: var(--font-size-xs);
+}
+
+.pnl-arrow--up::before {
+    content: '▲';
+}
+
+.pnl-arrow--down::before {
+    content: '▼';
+}
+
+
+/* ==========================================================================
+   Portfolio Summary Cards
+   ========================================================================== */
+
+.portfolio-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+.portfolio-card {
+    background-color: var(--color-surface-secondary);
+    border: 1px solid var(--color-border-primary);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.portfolio-card__label {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.portfolio-card__value {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    font-family: var(--font-mono);
+}
+
+.portfolio-card__change {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    font-family: var(--font-mono);
+}
+
+.portfolio-card--profit {
+    border-left: 3px solid var(--color-profit-green);
+}
+
+.portfolio-card--loss {
+    border-left: 3px solid var(--color-loss-red);
+}
+
+.portfolio-card--neutral {
+    border-left: 3px solid var(--color-primary);
+}
+
+
+/* ==========================================================================
+   Position Details
+   ========================================================================== */
+
+.position-detail {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.position-detail__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--font-size-sm);
+}
+
+.position-detail__label {
+    color: var(--color-text-muted);
+}
+
+.position-detail__value {
+    color: var(--color-text-primary);
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-medium);
+}
+
+
+/* ==========================================================================
+   Responsive Portfolio View
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .holdings-table {
+        font-size: var(--font-size-xs);
+    }
+    
+    .holdings-table__header,
+    .holdings-table__body td {
+        padding: var(--space-sm);
+    }
+    
+    .portfolio-summary {
+        grid-template-columns: 1fr;
+    }
+}
